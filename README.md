@@ -1,7 +1,7 @@
 # Smart[Fleet] Device Simulator
 
 ## Smart[Fleet] Device Simulator Flow
-![Connectionflow](https://github.com/tremoteye/device-starter-kit/blob/master/images/Screenshot2.png)
+![Connectionflow](https://github.com/skt-smartfleet/device-simulator/blob/master/images/flow_1.png)
 
 
 ### For GPS Device
