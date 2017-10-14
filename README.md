@@ -71,12 +71,12 @@ module.exports = {
     HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : // Please input your access token , 
-
+    userName : '{Please input your access token}',
     updateInterval : 2000,
     microTripCnt : 10,
 
 }
+
 ```
 ### Device Simulator 정상 동작 예시
 
@@ -86,52 +86,52 @@ module.exports = {
 
 ```
 Connecting to Smart[Fleet] Platform
-Connected Smart[Fleet] Platform
-ClientID : trf2e1f18fe
-Successfully Subscribe the RPC topic to Smart[Fleet] Platform
+[Flow #1] Connected Smart[Fleet] Platform
+ClientID : trf3c541487
+[Flow #2] Successfully Subscribe the RPC topic to Smart[Fleet] Platform
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967798618,"ap":0,"pld":{"tid":1,"lon":127.062512,"lat":37.510296,"alt":118,"sp":69,"dop":13,"nos":4,"clt":1507967798618}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968690899,"ap":0,"pld":{"tid":1,"lon":127.062512,"lat":37.510296,"alt":118,"sp":62,"dop":20,"nos":3,"clt":1507968690899}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967800620,"ap":0,"pld":{"tid":1,"lon":127.061969,"lat":37.511334,"alt":117,"sp":72,"dop":14,"nos":2,"clt":1507967800620}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968692903,"ap":0,"pld":{"tid":1,"lon":127.061969,"lat":37.511334,"alt":116,"sp":62,"dop":13,"nos":2,"clt":1507968692903}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967802622,"ap":0,"pld":{"tid":1,"lon":127.061426,"lat":37.512353,"alt":113,"sp":89,"dop":18,"nos":3,"clt":1507967802622}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968694909,"ap":0,"pld":{"tid":1,"lon":127.061426,"lat":37.512353,"alt":102,"sp":74,"dop":21,"nos":4,"clt":1507968694909}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967804624,"ap":0,"pld":{"tid":1,"lon":127.060685,"lat":37.513743,"alt":103,"sp":81,"dop":14,"nos":2,"clt":1507967804624}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968696911,"ap":0,"pld":{"tid":1,"lon":127.060685,"lat":37.513743,"alt":118,"sp":84,"dop":20,"nos":2,"clt":1507968696911}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967806630,"ap":0,"pld":{"tid":1,"lon":127.060067,"lat":37.51477,"alt":106,"sp":67,"dop":17,"nos":3,"clt":1507967806630}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968698915,"ap":0,"pld":{"tid":1,"lon":127.060067,"lat":37.51477,"alt":104,"sp":51,"dop":17,"nos":2,"clt":1507968698915}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967808633,"ap":0,"pld":{"tid":1,"lon":127.0592,"lat":37.516314,"alt":106,"sp":70,"dop":17,"nos":5,"clt":1507967808633}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968700918,"ap":0,"pld":{"tid":1,"lon":127.0592,"lat":37.516314,"alt":111,"sp":82,"dop":14,"nos":3,"clt":1507968700918}}
 
-Received RPC Message
-Topic :v1/sensors/me/rpc/request/3b39eab0-b0b5-11e7-8c12-ed6c4a5c999b
+[Flow #5] Receive the RPC Message
+Topic :v1/sensors/me/rpc/request/4f355b10-b0b7-11e7-8c12-ed6c4a5c999b
 {"method":"d","params":{"pin":"23","value":1}}
 
-Successfully sending a RPC Response message to Smart[Fleet] Platform
+[Flow #6] Successfully sending a RPC Response message to Smart[Fleet] Platform
 Message : {"results":2000}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967810633,"ap":0,"pld":{"tid":1,"lon":127.058356,"lat":37.517931,"alt":111,"sp":50,"dop":16,"nos":5,"clt":1507967810633}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968702924,"ap":0,"pld":{"tid":1,"lon":127.058356,"lat":37.517931,"alt":118,"sp":65,"dop":18,"nos":2,"clt":1507968702924}}
 
-Successfully sending a RPC Result to Smart[Fleet] Platform
+[Flow #8] Successfully sending a RPC Result to Smart[Fleet] Platform
 Message : {"results":2000,"additionalInfo":{"rusage":{"recv":100,"stime":200}}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967812638,"ap":0,"pld":{"tid":1,"lon":127.057246,"lat":37.519846,"alt":104,"sp":87,"dop":14,"nos":2,"clt":1507967812638}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968704929,"ap":0,"pld":{"tid":1,"lon":127.057246,"lat":37.519846,"alt":115,"sp":70,"dop":16,"nos":3,"clt":1507968704929}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967814643,"ap":0,"pld":{"tid":1,"lon":127.056837,"lat":37.520759,"alt":108,"sp":89,"dop":14,"nos":5,"clt":1507967814643}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968706933,"ap":0,"pld":{"tid":1,"lon":127.056837,"lat":37.520759,"alt":101,"sp":61,"dop":20,"nos":6,"clt":1507968706933}}
 
-Successfully sending a MicroTrip message to Smart[Fleet] Platform
-Message : {"ty":2,"ts":1507967816647,"ap":0,"pld":{"tid":1,"lon":127.063228,"lat":37.509141,"alt":103,"sp":83,"dop":14,"nos":3,"clt":1507967816647}}
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507968708933,"ap":0,"pld":{"tid":1,"lon":127.063228,"lat":37.509141,"alt":120,"sp":84,"dop":18,"nos":3,"clt":1507968708933}}
 
-Successfully sending a Trip message to Smart[Fleet] Platform
-Message : {"ty":1,"ts":1507967816647,"pld":{"tid":1,"stt":1507967798618,"edt":1507967816647,"dis":1022,"stlat":37.509141,"stlon":127.063228,"edlat":37.520759,"edlon":127.056837,"hsts":90,"mesp":56,"fwv":"1.0.1","dtvt":102}}
+[Flow #3] Successfully sending a Trip message to Smart[Fleet] Platform
+Message : {"ty":1,"ts":1507968708934,"pld":{"tid":1,"stt":1507968690899,"edt":1507968708933,"dis":1022,"stlat":37.509141,"stlon":127.063228,"edlat":37.520759,"edlon":127.056837,"hsts":90,"mesp":56,"fwv":"1.0.1","dtvt":102}}
 ```
 
 

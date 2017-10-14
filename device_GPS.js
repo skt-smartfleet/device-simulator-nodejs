@@ -1,8 +1,3 @@
-/**
- * Created by hb.ahn@sk.com on 11/07/2017.
- * This is only for test
- */
-
 'use strict';
 
 // for logging
@@ -56,7 +51,7 @@ var messageSender = mqtt.connect('mqtts://' + config.Host, {
 
 messageSender.on('connect', function() {
 
-    console.log(colors.green('Connected Smart[Fleet] Platform'));
+    console.log(colors.green('[Flow #1] Connected Smart[Fleet] Platform'));
     console.log(colors.blue('ClientID : ' + clientIdSession));
 
     subscribeRPCTopic();
@@ -70,30 +65,24 @@ messageSender.on('error', function(error){
 
 });
 
-// messageArrived callback
-messageSender.on('message', function(topic, message) {
-    var msgs = message.toString();
-    var topic = topic.toString();
-    var requestId = topic.toString().split('/')[5];
+//////////////////////////////////////////////////
+// Flow #2 : Subscribe the Topic for RPC 
+//////////////////////////////////////////////////
 
-    if (msgs != null){
-      console.log(colors.magenta('Received RPC Message'));
-      console.log(colors.magenta('Topic :' + topic));
-      console.log(colors.magenta(msgs));
-      console.log(colors.magenta(''));
-
-      responseRPCRequest(requestId);
-    }
-});
-
-function intervalSender(){
-
-    tid++;
-    sequence=0;
-    IntervalFunction = setInterval(sendingMicroTripMessage, config.updateInterval);
+function subscribeRPCTopic(){
   
-}
+      messageSender.subscribe(utils.rpcReqTopic, {qos: 1}, function() {
+        // Response it as a callback
+        console.log(colors.yellow('[Flow #2] Successfully Subscribe the RPC topic to Smart[Fleet] Platform'));
+        console.log(colors.yellow(''));
+  
+      });
+  }
 
+
+//////////////////////////////////////////////////
+// Flow #3 : Publish MicroTrip Message
+//////////////////////////////////////////////////
 
 function sendingMicroTripMessage()
 {
@@ -127,7 +116,7 @@ function sendingMicroTripMessage()
   };
 
   messageSender.publish(utils.sendingTopic, JSON.stringify(microTrip), {qos: 0}, function(){
-    console.log(colors.yellow('Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
+    console.log(colors.yellow('[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
     console.log(colors.yellow('Message : ' + JSON.stringify(microTrip)));
     console.log(colors.yellow(''));
   });
@@ -137,6 +126,11 @@ function sendingMicroTripMessage()
     sendingTripMessage();
   }
 }
+
+
+//////////////////////////////////////////////////
+// Flow #3 : Publish Trip Message
+//////////////////////////////////////////////////
 
 function sendingTripMessage(){
 
@@ -161,7 +155,7 @@ function sendingTripMessage(){
   };
 
   messageSender.publish(utils.sendingTopic, JSON.stringify(trip), {qos: 1}, function(){
-    console.log(colors.yellow('Successfully sending a Trip message to Smart[Fleet] Platform'));
+    console.log(colors.yellow('[Flow #3] Successfully sending a Trip message to Smart[Fleet] Platform'));
     console.log(colors.yellow('Message : ' + JSON.stringify(trip)));
     console.log(colors.yellow(''));
   });
@@ -169,18 +163,40 @@ function sendingTripMessage(){
   intervalSender();
 }
 
-// Subscribe the RPC topic
-function subscribeRPCTopic(){
 
-    messageSender.subscribe(utils.rpcReqTopic, {qos: 1}, function() {
-      // Response it as a callback
-      console.log(colors.yellow('Successfully Subscribe the RPC topic to Smart[Fleet] Platform'));
-      console.log(colors.yellow(''));
+//////////////////////////////////////////////////
+// Flow #5 : Receive the RPC Message
+// 본 시뮬레이터에서는 Subscribe 한 Topic에 메시지가 수신된 경우의 Callback을 5번 과정을 명시합니다.
+//////////////////////////////////////////////////
 
-    });
+
+messageSender.on('message', function(topic, message) {
+    var msgs = message.toString();
+    var topic = topic.toString();
+    var requestId = topic.toString().split('/')[5];
+
+    if (msgs != null){
+      console.log(colors.magenta('[Flow #5] Receive the RPC Message'));
+      console.log(colors.magenta('Topic :' + topic));
+      console.log(colors.magenta(msgs));
+      console.log(colors.magenta(''));
+
+      responseRPCRequest(requestId);
+    }
+});
+
+function intervalSender(){
+
+    tid++;
+    sequence=0;
+    IntervalFunction = setInterval(sendingMicroTripMessage, config.updateInterval);
+  
 }
 
-// Publish the RPC Result
+//////////////////////////////////////////////////
+// Flow #6 : Publish Acknowledgement
+//////////////////////////////////////////////////
+
 function responseRPCRequest(arg){
 
     var sendingMessageObj = {
@@ -190,13 +206,24 @@ function responseRPCRequest(arg){
     var sendingMessageJSON = JSON.stringify(sendingMessageObj);
 
     messageSender.publish(utils.rpcResTopic + arg, sendingMessageJSON, {qos: 1}, function() {
-      console.log(colors.magenta('Successfully sending a RPC Response message to Smart[Fleet] Platform'));
+      console.log(colors.magenta('[Flow #6] Successfully sending a RPC Response message to Smart[Fleet] Platform'));
       console.log(colors.magenta('Message : ' + sendingMessageJSON));
       console.log(colors.magenta(''));
     });
 
+
+//////////////////////////////////////////////////
+// Flow #7 : Operating the RPC
+// 본 시뮬레이터에서는 2초 정도의 지연으로 RPC 수행을 대신합니다.
+//////////////////////////////////////////////////
+
     setTimeout(resultRPCpublish, 2000, arg) ;
 }
+
+
+//////////////////////////////////////////////////
+// Flow #8 : Publish RPC Result
+//////////////////////////////////////////////////
 
 function resultRPCpublish(arg){
 
@@ -213,7 +240,7 @@ function resultRPCpublish(arg){
   var sendingResultJSON = JSON.stringify(sendingMessageObj);
 
   messageSender.publish(utils.rpcRstTopic + arg, sendingResultJSON, {qos: 1}, function() {
-    console.log(colors.magenta('Successfully sending a RPC Result to Smart[Fleet] Platform'));
+    console.log(colors.magenta('[Flow #8] Successfully sending a RPC Result to Smart[Fleet] Platform'));
     console.log(colors.magenta('Message : ' + sendingResultJSON));
     console.log(colors.magenta(''));
   });
