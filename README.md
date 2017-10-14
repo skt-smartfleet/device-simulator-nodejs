@@ -3,7 +3,8 @@
 본 시뮬레이터는 SKT의 Smart[Fleet] 플랫폼 프로토콜을 따르는 ``GPS``, ``OBD`` 단말의 동작을 나타내는 시뮬레이터입니다. 
 
 본 시뮬레이터는 Smart[Fleet] 플랫폼의 [기술문서](http://smart-fleet-docs.readthedocs.io/ko/latest/)를 기반으로 구성되어 있습니다. 상세한 프로토콜은 상기 기술문서를 참고하세요.
-
+<br>
+<br>
 ## Smart[Fleet] Device Simulator Flow
 
 본 시뮬레이터는 아래의 Flow를 기반으로 작성되어 있으며, 아래의 Flow는 [단말 프로시저 규격](http://smart-fleet-docs.readthedocs.io/ko/latest/procedure/)와 [단말 전송 메시지 규격](http://smart-fleet-docs.readthedocs.io/ko/latest/message/)을 참고 바랍니다.
@@ -25,6 +26,7 @@ var messageSender = mqtt.connect('mqtts://' + config.Host, {
     rejectUnauthorized: true
 });
 ```
+<br>
 
 ### Device Simulator 구성
 
@@ -71,12 +73,64 @@ module.exports = {
     // 20-digits Device Access Token given by manufacturer
     // Please input your access token
     userName : 'aaaabbbbccccddddeeeg', 
-    
+
     updateInterval : 2000,
     microTripCnt : 10,
 
 }
 ```
+### Device Simulator 정상 동작 예시
+
+```
+Connecting to Smart[Fleet] Platform
+Connected Smart[Fleet] Platform
+ClientID : trf2e1f18fe
+Successfully Subscribe the RPC topic to Smart[Fleet] Platform
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967798618,"ap":0,"pld":{"tid":1,"lon":127.062512,"lat":37.510296,"alt":118,"sp":69,"dop":13,"nos":4,"clt":1507967798618}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967800620,"ap":0,"pld":{"tid":1,"lon":127.061969,"lat":37.511334,"alt":117,"sp":72,"dop":14,"nos":2,"clt":1507967800620}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967802622,"ap":0,"pld":{"tid":1,"lon":127.061426,"lat":37.512353,"alt":113,"sp":89,"dop":18,"nos":3,"clt":1507967802622}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967804624,"ap":0,"pld":{"tid":1,"lon":127.060685,"lat":37.513743,"alt":103,"sp":81,"dop":14,"nos":2,"clt":1507967804624}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967806630,"ap":0,"pld":{"tid":1,"lon":127.060067,"lat":37.51477,"alt":106,"sp":67,"dop":17,"nos":3,"clt":1507967806630}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967808633,"ap":0,"pld":{"tid":1,"lon":127.0592,"lat":37.516314,"alt":106,"sp":70,"dop":17,"nos":5,"clt":1507967808633}}
+
+Received RPC Message
+Topic :v1/sensors/me/rpc/request/3b39eab0-b0b5-11e7-8c12-ed6c4a5c999b
+{"method":"d","params":{"pin":"23","value":1}}
+
+Successfully sending a RPC Response message to Smart[Fleet] Platform
+Message : {"results":2000}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967810633,"ap":0,"pld":{"tid":1,"lon":127.058356,"lat":37.517931,"alt":111,"sp":50,"dop":16,"nos":5,"clt":1507967810633}}
+
+Successfully sending a RPC Result to Smart[Fleet] Platform
+Message : {"results":2000,"additionalInfo":{"rusage":{"recv":100,"stime":200}}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967812638,"ap":0,"pld":{"tid":1,"lon":127.057246,"lat":37.519846,"alt":104,"sp":87,"dop":14,"nos":2,"clt":1507967812638}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967814643,"ap":0,"pld":{"tid":1,"lon":127.056837,"lat":37.520759,"alt":108,"sp":89,"dop":14,"nos":5,"clt":1507967814643}}
+
+Successfully sending a MicroTrip message to Smart[Fleet] Platform
+Message : {"ty":2,"ts":1507967816647,"ap":0,"pld":{"tid":1,"lon":127.063228,"lat":37.509141,"alt":103,"sp":83,"dop":14,"nos":3,"clt":1507967816647}}
+
+Successfully sending a Trip message to Smart[Fleet] Platform
+Message : {"ty":1,"ts":1507967816647,"pld":{"tid":1,"stt":1507967798618,"edt":1507967816647,"dis":1022,"stlat":37.509141,"stlon":127.063228,"edlat":37.520759,"edlon":127.056837,"hsts":90,"mesp":56,"fwv":"1.0.1","dtvt":102}}
+```
+
 
 
 
