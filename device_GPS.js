@@ -114,7 +114,10 @@ function sendingMicroTripMessage()
        "tid": tid,
        "lon": longitudeValue[sequence % config.microTripCnt],
        "lat": latitudeValue[sequence % config.microTripCnt],
-       "lc" : utils.randomIntFromInterval(70, 85),
+       "alt" : utils.randomIntFromInterval(100, 120),
+       "sp" : utils.randomIntFromInterval(50,90),
+       "dop" : utils.randomIntFromInterval(10.5, 20.3),
+       "nos" : utils.randomIntFromInterval(2,6),
        "clt" : new Date().getTime()
      }
   };
@@ -141,10 +144,15 @@ function sendingTripMessage(){
         "tid" : tid,
         "stt" : startTs,
         "edt" : endTs,
+        "dis" : 1022,
         "stlat" : latitudeValue[0],
         "stlon" : longitudeValue[0],
         "edlat" : latitudeValue[config.microTripCnt - 1],
-        "edlon" : longitudeValue[config.microTripCnt - 1]
+        "edlon" : longitudeValue[config.microTripCnt - 1],
+        "hsts" : 90,
+        "mesp" : 56,
+        "fwv" : "1.0.1",
+        "dtvt" : 102
       }
   };
 
