@@ -10,7 +10,8 @@ module.exports = {
 
     // 20-digits Device Access Token given by manufacturer
     userName : '{Please input your access token}',
+    
     updateInterval : 2000,
     microTripCnt : 10,
-
+    deviceType : 'GPS',
 }
