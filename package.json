@@ -1,0 +1,13 @@
+{
+  "name": "t-remoteyeDeviceStarterKit",
+  "version": "0.1.0",
+  "description": "device simulation implemented by node.js for T-RemotEye Platform Developer",
+  "private": true,
+  "license": "BSD-3-Clause",
+  "author": "Hongbeom Ahn <hb.ahn@sk.com>",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "cookie-parser": "~1.4.3",
+    "mqtt": "^2.9.1"
+  }
+}
