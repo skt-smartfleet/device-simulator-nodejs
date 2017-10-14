@@ -39,7 +39,7 @@ var messageSender = mqtt.connect('mqtts://' + config.Host, {
 
 ### Device Simulator 실행 방법
 
-본 시뮬레이터를 동작을 위해서는 기본적으로 ``node.js``가 설치되어 있어야 합니다. ``node.js``의 섦치 방법은 [node.js 홈페이지](https://nodejs.org)를 참고하시길 부탁 드립니다.
+본 시뮬레이터를 동작을 위해서는 기본적으로 ``node.js``가 설치되어 있어야 합니다. ``node.js``의 설치 방법은 [node.js 홈페이지](https://nodejs.org)를 참고하시길 부탁 드립니다.
 
 ```
 git clone https://github.com/skt-smartfleet/device-simulator.git
@@ -71,8 +71,7 @@ module.exports = {
     HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    // Please input your access token
-    userName : 'aaaabbbbccccddddeeeg', 
+    userName : // Please input your access token , 
 
     updateInterval : 2000,
     microTripCnt : 10,
@@ -80,6 +79,10 @@ module.exports = {
 }
 ```
 ### Device Simulator 정상 동작 예시
+
+정상적으로 설정된 Device Simulator의 동작 예시입니다.
+
+[GPS Device]
 
 ```
 Connecting to Smart[Fleet] Platform

@@ -9,7 +9,7 @@ module.exports = {
     HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : 'aaaabbbbccccddddeeeg', // Please input your access token
+    userName : // Please input your access token
     updateInterval : 2000,
     microTripCnt : 10,
 
