@@ -17,7 +17,7 @@ var config = require('./config');
 var utils = require('./utils');
 
 
-var clientIdSession = config.smartFleetClientId();
+var clientIdSession = utils.smartFleetClientId();
 
 var latitudeValue = [ 37.509141, 37.510296, 37.511334, 37.512353, 37.513743, 37.514770, 37.516314, 37.517931, 37.519846, 37.520759, 
                       37.522624, 37.524782, 37.526018, 37.527895, 37.528641, 37.529740, 37.530824, 37.531986, 37.533009, 37.532616,
@@ -126,7 +126,7 @@ function sendingMicroTripMessage()
      }
   };
 
-  messageSender.publish(config.sendingTopic, JSON.stringify(microTrip), {qos: 0}, function(){
+  messageSender.publish(utils.sendingTopic, JSON.stringify(microTrip), {qos: 0}, function(){
     console.log(colors.yellow('Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
     console.log(colors.yellow('Message : ' + JSON.stringify(microTrip)));
     console.log(colors.yellow(''));
@@ -160,7 +160,7 @@ function sendingTripMessage(){
       }
   };
 
-  messageSender.publish(config.sendingTopic, JSON.stringify(trip), {qos: 1}, function(){
+  messageSender.publish(utils.sendingTopic, JSON.stringify(trip), {qos: 1}, function(){
     console.log(colors.yellow('Successfully sending a Trip message to Smart[Fleet] Platform'));
     console.log(colors.yellow('Message : ' + JSON.stringify(trip)));
     console.log(colors.yellow(''));
@@ -172,7 +172,7 @@ function sendingTripMessage(){
 // Subscribe the RPC topic
 function subscribeRPCTopic(){
 
-    messageSender.subscribe(config.rpcReqTopic, {qos: 1}, function() {
+    messageSender.subscribe(utils.rpcReqTopic, {qos: 1}, function() {
       // Response it as a callback
       console.log(colors.yellow('Successfully Subscribe the RPC topic to Smart[Fleet] Platform'));
       console.log(colors.yellow(''));
@@ -189,7 +189,7 @@ function responseRPCRequest(arg){
 
     var sendingMessageJSON = JSON.stringify(sendingMessageObj);
 
-    messageSender.publish(config.rpcResTopic + arg, sendingMessageJSON, {qos: 1}, function() {
+    messageSender.publish(utils.rpcResTopic + arg, sendingMessageJSON, {qos: 1}, function() {
       console.log(colors.magenta('Successfully sending a RPC Response message to Smart[Fleet] Platform'));
       console.log(colors.magenta('Message : ' + sendingMessageJSON));
       console.log(colors.magenta(''));
@@ -212,7 +212,7 @@ function resultRPCpublish(arg){
 
   var sendingResultJSON = JSON.stringify(sendingMessageObj);
 
-  messageSender.publish(config.rpcRstTopic + arg, sendingResultJSON, {qos: 1}, function() {
+  messageSender.publish(utils.rpcRstTopic + arg, sendingResultJSON, {qos: 1}, function() {
     console.log(colors.magenta('Successfully sending a RPC Result to Smart[Fleet] Platform'));
     console.log(colors.magenta('Message : ' + sendingResultJSON));
     console.log(colors.magenta(''));

@@ -10,7 +10,7 @@
 
 ![Connectionflow](https://github.com/skt-smartfleet/device-simulator/blob/master/images/flow_1.png)
 
-하기 제공되는 각 단말 시뮬레이터의 코드에는 상기 Flow의 순서가 주석으로 표기되어 있으니, 각 순서를 코드와 메핑하여 이해하시면 됩니다.
+하기 제공되는 각 단말 시뮬레이터의 코드에는 상기 Flow의 순서가 주석으로 표기되어 있으니, 각 순서를 코드와 매핑하여 이해하시면 됩니다.
 
 ```
 //////////////////////////////////////////////////
@@ -45,6 +45,37 @@ git clone https://github.com/skt-smartfleet/device-simulator.git
 npm install
 
 node device_GPS
+```
+
+### Device Simulator 설정 방법
+
+본 시뮬레이터 동작을 위한 설정은 본 Repository의 ``config.js`` 파일에 기술되어 있으며, 해당 설정을 수정하므로, 각자에 상황에 맞추어 시뮬레이션을 수행할 수 있습니다.
+
+아래 코드의 내용 중에서 수정이 필요한 사항은 다음과 같습니다.
+
+Key                 |  Description                            |
+--------------------|-----------------------------------------|
+userName            | MQTT Conection에 명시하는 ``username`` 값으로 본 값은 사전에 시뮬레이터 사용을 인가 받은 업체 만 접속이 가능하며, 시뮬레이터 사용을 위해서는 본 Repository Issue([Link](https://github.com/skt-smartfleet/device-simulator/issues))에 이슈 등록 부탁 드립니다.
+updateInterval      | 단말이 메시지를 업로드 하는 주기를 명시합니다. (msec)
+microtripcnt        | 단말이 주기 정보를 보내는 총 갯수를 명시합니다.
+
+
+
+```
+module.exports = {
+
+    Host : 'smartfleet.sktelecom.com',
+    Port : '8883',
+    HttpPort : '9000',
+
+    // 20-digits Device Access Token given by manufacturer
+    // Please input your access token
+    userName : 'aaaabbbbccccddddeeeg', 
+    
+    updateInterval : 2000,
+    microTripCnt : 10,
+
+}
 ```
 
 
