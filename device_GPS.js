@@ -125,11 +125,6 @@ function sendingMicroTripMessage()
     console.log(colors.yellow(''));
   });
 
-  if ( sequence == config.microTripCnt/2) {
-
-    sendingCollisionWarningDrv();
-  }
-
   if ( sequence == config.microTripCnt ) {
     clearInterval(IntervalFunction);
     sendingTripMessage();
@@ -159,27 +154,7 @@ function sendingTripMessage(){
     console.log(colors.yellow(''));
   });
 
-
   intervalSender();
-}
-
-function sendingCollisionWarningDrv(){
-
-  var cwMsg = {
-    "ty": 4,
-    "ts": new Date().getTime(),
-    "pld": {
-      "tripId": 1,
-      "dCWlat": 37.380646,
-      "dCWlon": 127.117784
-    }
-  };
-
-  messageSender.publish(config.sendingTopic, JSON.stringify(cwMsg), {qos: 1}, function(){
-    console.log(colors.yellow('Successfully sending a Collision Message to Smart[Fleet] Platform'));
-    console.log(colors.yellow('Message : ' + JSON.stringify(cwMsg)));
-    console.log(colors.yellow(''));
-  });
 }
 
 // Subscribe the RPC topic
