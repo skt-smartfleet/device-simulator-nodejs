@@ -57,7 +57,7 @@ node device_GPS
 
 Key                 |  Description                            |
 --------------------|-----------------------------------------|
-userName            | MQTT Conection에 명시하는 ``username`` 값으로 본 값은 사전에 시뮬레이터 사용을 인가 받은 업체 만 접속이 가능하며, 시뮬레이터 사용을 위해서는 본 Repository Issue([Link](https://github.com/skt-smartfleet/device-simulator/issues))에 이슈 등록 부탁 드립니다.
+userName            | MQTT Conection에 명시하는 ``username`` 항목으로 해당 항목에는 Smart[Fleet]에 정상적으로 등록된 단말임을 증명하는 ``AccessToken``값을 기입해야합니다. 시뮬레이션을 위한 20자리의 Token 값을 발급 받기위해서는 Repository Issue([Link](https://github.com/skt-smartfleet/device-simulator/issues))에 이슈 등록 부탁 드립니다.
 updateInterval      | 단말이 메시지를 업로드 하는 주기를 명시합니다. (msec)
 microtripcnt        | 단말이 주기 정보를 보내는 총 갯수를 명시합니다.
 
@@ -76,7 +76,6 @@ module.exports = {
     microTripCnt : 10,
 
 }
-
 ```
 ### Device Simulator 정상 동작 예시
 
