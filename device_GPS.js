@@ -42,7 +42,11 @@ var endTs;
 
 console.log(colors.green('Connecting to Smart[Fleet] Platform'));
 
-var messageSender = mqtt.connect('mqtts://' + config.TREHost, {
+//////////////////////////////////////////////////
+// Flow #1 : Request Connection 
+//////////////////////////////////////////////////
+
+var messageSender = mqtt.connect('mqtts://' + config.Host, {
     username:config.userName,
     clientId:clientIdSession,
     clean:true,

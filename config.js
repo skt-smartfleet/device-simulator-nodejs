@@ -4,9 +4,9 @@
 
 module.exports = {
 
-    TREHost : 'smartfleet.sktelecom.com',
-    TREPort : '8883',
-    TREHttpPort : '9000',
+    Host : 'smartfleet.sktelecom.com',
+    Port : '8883',
+    HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
     userName : 'aaaabbbbccccddddeeeg', // Please input your access token
