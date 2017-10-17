@@ -119,7 +119,6 @@ function sendingMicroTripMessage()
   var microTrip_GPS = {
    "ty": 2,
    "ts": new Date().getTime(),
-   "ap": 0,
    "pld":
    [
     {
@@ -159,7 +158,6 @@ function sendingMicroTripMessage()
   var microTrip_OBD = {
     "ty": 2,
     "ts": new Date().getTime(),
-    "ap": 0,
     "pld": 
     [
       {
