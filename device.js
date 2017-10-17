@@ -47,7 +47,7 @@ var eventMarker = [ "00", "01", "00", "00", "10", "00", "00", "00", "00", "00",
 
 var sequence = 0;
 var IntervalFunction;
-var tid = 0;
+var tid = 300;
 var startTs;
 var endTs;
 
@@ -120,7 +120,8 @@ function sendingMicroTripMessage()
    "ty": 2,
    "ts": new Date().getTime(),
    "ap": 0,
-   "pld": 
+   "pld":
+   [
     {
        "tid": tid,
        "lon": longitudeValue[sequence % config.microTripCnt],
@@ -129,8 +130,30 @@ function sendingMicroTripMessage()
        "sp" : utils.randomIntFromInterval(50,90),
        "dop" : utils.randomIntFromInterval(10.5, 20.3),
        "nos" : utils.randomIntFromInterval(2,6),
-       "clt" : new Date().getTime()
-     }
+       "clt" : new Date().getTime()-10
+     },
+     {
+      "tid": tid,
+      "lon": longitudeValue[sequence % config.microTripCnt],
+      "lat": latitudeValue[sequence % config.microTripCnt],
+      "alt" : utils.randomIntFromInterval(100, 120),
+      "sp" : utils.randomIntFromInterval(50,90),
+      "dop" : utils.randomIntFromInterval(10.5, 20.3),
+      "nos" : utils.randomIntFromInterval(2,6),
+      "clt" : new Date().getTime()-5
+    },
+    {
+      "tid": tid,
+      "lon": longitudeValue[sequence % config.microTripCnt],
+      "lat": latitudeValue[sequence % config.microTripCnt],
+      "alt" : utils.randomIntFromInterval(100, 120),
+      "sp" : utils.randomIntFromInterval(50,90),
+      "dop" : utils.randomIntFromInterval(10.5, 20.3),
+      "nos" : utils.randomIntFromInterval(2,6),
+      "clt" : new Date().getTime()
+    }
+  ]
+
   };
 
   var microTrip_OBD = {
@@ -138,7 +161,8 @@ function sendingMicroTripMessage()
     "ts": new Date().getTime(),
     "ap": 0,
     "pld": 
-     {
+    [
+      {
         "tid": tid,
         "fc" : utils.randomIntFromInterval(1499000, 1500000),
         "lon": longitudeValue[sequence % config.microTripCnt],
@@ -153,6 +177,7 @@ function sendingMicroTripMessage()
         "vv" : utils.randomIntFromInterval(10, 13),
         "tpos" : utils.randomIntFromInterval(80, 98)
       }
+    ]
    };
    
   messageSender.publish(utils.sendingTopic, JSON.stringify(eval('microTrip_' + config.deviceType)), {qos: 0}, function(){
