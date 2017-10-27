@@ -67,7 +67,7 @@ deviceType          | 시뮬레이션을 돌리고자 하는 디바이스 타입
 module.exports = {
 
     Host : 'smartfleet.sktelecom.com',
-    Port : '8883',
+    Port : '9900',
     HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
