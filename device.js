@@ -59,12 +59,12 @@ console.log(colors.green('Connecting to Smart[Fleet] Platform'));
 // Flow #1 : Request Connection 
 //////////////////////////////////////////////////
 
-var messageSender = mqtt.connect('mqtts://' + config.Host, {
+var messageSender = mqtt.connect({ host: config.Host, port: config.Port, 
     username:config.userName,
     clientId:clientIdSession,
     clean:true,
     keepalive:60,
-    rejectUnauthorized: true
+    //rejectUnauthorized: true
 });
 
 messageSender.on('connect', function() {
@@ -156,6 +156,29 @@ function sendingMicroTripMessage()
   };
 
   var microTrip_OBD = {
+    "ty": 2,
+    "ts": new Date().getTime(),
+    "pld": 
+    [
+      {
+        "tid": tid,
+        "fc" : utils.randomIntFromInterval(1499000, 1500000),
+        "lon": longitudeValue[sequence % config.microTripCnt],
+        "lat": latitudeValue[sequence % config.microTripCnt],
+        "lc" : utils.randomIntFromInterval(70, 85),
+        "clt" : new Date().getTime(),
+        "cdlt" : utils.randomIntFromInterval(15, 25), 
+        "rpm" : utils.randomIntFromInterval(1000, 1500),
+        "sp" : utils.randomIntFromInterval(70, 100),
+        "em" : eventMarker[ sequence ],
+        "el" : utils.randomIntFromInterval(80.99, 98.99),
+        "vv" : utils.randomIntFromInterval(10, 13),
+        "tpos" : utils.randomIntFromInterval(80, 98)
+      }
+    ]
+   };
+
+   var microTrip_ADAS = {
     "ty": 2,
     "ts": new Date().getTime(),
     "pld": 
