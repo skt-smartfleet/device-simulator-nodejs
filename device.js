@@ -3,6 +3,9 @@
 // for logging
 var colors = require('colors');
 var util = require('util');
+var fs = require('fs');
+var path = require('path')
+
 
 // for importing mqtt
 var mqtt = require('mqtt');
@@ -50,7 +53,7 @@ var IntervalFunction;
 var tid = 300;
 var startTs;
 var endTs;
-
+var CERT = fs.readFileSync(path.join(__dirname, '/RootCA.crt'));
 // connection Smart[Fleet] Platform
 
 console.log(colors.green('Connecting to Smart[Fleet] Platform'));
@@ -59,12 +62,16 @@ console.log(colors.green('Connecting to Smart[Fleet] Platform'));
 // Flow #1 : Request Connection 
 //////////////////////////////////////////////////
 
-var messageSender = mqtt.connect({ host: config.Host, port: config.Port, 
+var messageSender = mqtt.connect({ 
+    host: config.Host, 
+    port: config.Port, 
     username:config.userName,
     clientId:clientIdSession,
     clean:true,
     keepalive:60,
-    //rejectUnauthorized: true
+    rejectUnauthorized: true,
+    //cert:CERT,
+    protocol: 'mqtts'
 });
 
 messageSender.on('connect', function() {
