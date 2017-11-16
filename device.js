@@ -185,27 +185,19 @@ function sendingMicroTripMessage()
     ]
    };
 
-   var microTrip_ADAS = {
-    "ty": 2,
+   var microTrip_ADAS_Periodic = {
+    "ty": 5,
     "ts": new Date().getTime(),
     "pld": 
-    [
       {
         "tid": tid,
-        "fc" : utils.randomIntFromInterval(1499000, 1500000),
         "lon": longitudeValue[sequence % config.microTripCnt],
         "lat": latitudeValue[sequence % config.microTripCnt],
-        "lc" : utils.randomIntFromInterval(70, 85),
-        "clt" : new Date().getTime(),
-        "cdlt" : utils.randomIntFromInterval(15, 25), 
-        "rpm" : utils.randomIntFromInterval(1000, 1500),
-        "sp" : utils.randomIntFromInterval(70, 100),
-        "em" : eventMarker[ sequence ],
-        "el" : utils.randomIntFromInterval(80.99, 98.99),
-        "vv" : utils.randomIntFromInterval(10, 13),
-        "tpos" : utils.randomIntFromInterval(80, 98)
+        "dir": 31,
+        "sp": utils.randomIntFromInterval(80, 110),
+        "ldw": 32,
+        "fcw": 30 
       }
-    ]
    };
    
   messageSender.publish(utils.sendingTopic, JSON.stringify(eval('microTrip_' + config.deviceType)), {qos: 0}, function(){
@@ -216,7 +208,9 @@ function sendingMicroTripMessage()
 
   if ( sequence == config.microTripCnt ) {
     clearInterval(IntervalFunction);
-    sendingTripMessage();
+    //if ( config.deviceType != ADAS_Event ){
+      sendingTripMessage();
+   // }
   }
 }
 

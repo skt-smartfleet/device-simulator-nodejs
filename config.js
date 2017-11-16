@@ -9,9 +9,10 @@ module.exports = {
     HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : 'A1234567891234567890',
+    userName : 'A123456789123456789d',
     
     updateInterval : 2000,
     microTripCnt : 10,
-    deviceType : 'OBD',
+    deviceType : 'ADAS_Periodic',
+    // Device Types : OBD, GPS, ADAS_Periodic, ADAS_Event
 }
