@@ -163,7 +163,7 @@ function sendingMicroTripMessage()
   };
 
   var microTrip_OBD = {
-    "ty": 2,
+    "ty": 4,
     "ts": new Date().getTime(),
     "pld": 
     [
@@ -185,20 +185,43 @@ function sendingMicroTripMessage()
     ]
    };
 
-   var microTrip_ADAS_Periodic = {
-    "ty": 5,
+   var microTrip_ADAS = {
+    "ty": 6,
     "ts": new Date().getTime(),
     "pld": 
       {
         "tid": tid,
         "lon": longitudeValue[sequence % config.microTripCnt],
         "lat": latitudeValue[sequence % config.microTripCnt],
-        "dir": 31,
-        "sp": utils.randomIntFromInterval(80, 110),
-        "ldw": 32,
-        "fcw": 30 
+        "dop": utils.randomIntFromInterval(10.5, 20.3),
+        "nos": utils.randomIntFromInterval(2, 6),
+        "dir": 30,
+        "sp": utils.randomIntFromInterval(70, 100),
+        "ldw" : 31,
+        "rld" : 10,
+        "lld" : 12,
+        "fcw" : 30,
+        "hdw" : 20,
+        "brk" : 0,
+        "chcmr" : 0,
+        "chdir" : 0,
+        "chbrk" : 0
       }
    };
+
+  var microTrip_BlackBox = {
+    "ty": 8,
+    "try": 1, 
+    "ts": new Date().getTime(),
+    "pld":
+      {
+        "tid": tid,
+        "lon": longitudeValue[sequence % config.microTripCnt],
+        "lat": latitudeValue[sequence % config.microTripCnt],
+        "try": 1, 
+        "sp": utils.randomIntFromInterval(70, 100)
+      }
+  };
    
   messageSender.publish(utils.sendingTopic, JSON.stringify(eval('microTrip_' + config.deviceType)), {qos: 0}, function(){
     console.log(colors.yellow('[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
@@ -242,7 +265,7 @@ function sendingTripMessage(){
   };
 
   var trip_OBD = {
-    "ty": 1,
+    "ty": 3,
     "ts": new Date().getTime(),
     "pld":
       {
@@ -269,6 +292,32 @@ function sendingTripMessage(){
         "usm" : "010-1112-3333",
         "fwv" : "1.1.1",
         "est" : 132
+      }
+  };
+
+  var trip_ADAS = {
+    "ty": 5,
+    "ts": new Date().getTime(),
+    "pld":
+      {
+        "tid": tid,
+        "lat": latitudeValue[config.microTripCnt - 1],
+        "lon": longitudeValue[config.microTripCnt - 1],
+        "dop": 800,
+        "nos": 4
+      }
+  };
+
+  var trip_BlackBox = {
+    "ty": 7,
+    "ts": new Date().getTime(),
+    "pld":
+      {
+        "tid": tid,
+        "lat": latitudeValue[config.microTripCnt - 1],
+        "lon": longitudeValue[config.microTripCnt - 1],
+        "try": 1,
+        "vlt": 12.1
       }
   };
 
