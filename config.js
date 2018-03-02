@@ -9,10 +9,11 @@ module.exports = {
     HttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : 'A123456789123456789F',
+    userName : '{{your token}}',
     
     updateInterval : 2000,
-    microTripCnt : 3,
-    deviceType : 'BlackBox',
+    microTripCnt : 50,
+    deviceType : 'BlackBox'
+
     // Device Types : OBD, GPS, ADAS, BlackBox
 }

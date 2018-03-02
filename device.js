@@ -4,7 +4,8 @@
 var colors = require('colors');
 var util = require('util');
 var fs = require('fs');
-var path = require('path')
+var path = require('path');
+var msgpack = require('msgpack5')();
 
 
 // for importing mqtt
@@ -165,24 +166,21 @@ function sendingMicroTripMessage()
   var microTrip_OBD = {
     "ty": 4,
     "ts": new Date().getTime(),
-    "pld": 
-    [
-      {
-        "tid": tid,
-        "fc" : utils.randomIntFromInterval(1499000, 1500000),
-        "lon": longitudeValue[sequence % config.microTripCnt],
-        "lat": latitudeValue[sequence % config.microTripCnt],
-        "lc" : utils.randomIntFromInterval(70, 85),
-        "clt" : new Date().getTime(),
-        "cdlt" : utils.randomIntFromInterval(15, 25), 
-        "rpm" : utils.randomIntFromInterval(1000, 1500),
-        "sp" : utils.randomIntFromInterval(70, 100),
-        "em" : eventMarker[ sequence ],
-        "el" : utils.randomIntFromInterval(80.99, 98.99),
-        "vv" : utils.randomIntFromInterval(10, 13),
-        "tpos" : utils.randomIntFromInterval(80, 98)
-      }
-    ]
+    "pld": {
+      "tid": tid,
+      "fc" : utils.randomIntFromInterval(1499000, 1500000),
+      "lon": longitudeValue[sequence % config.microTripCnt],
+      "lat": latitudeValue[sequence % config.microTripCnt],
+      "lc" : utils.randomIntFromInterval(70, 85),
+      "clt" : new Date().getTime(),
+      "cdlt" : utils.randomIntFromInterval(15, 25), 
+      "rpm" : utils.randomIntFromInterval(1000, 1500),
+      "sp" : utils.randomIntFromInterval(70, 100),
+      "em" : eventMarker[ sequence ],
+      "el" : utils.randomIntFromInterval(80.99, 98.99),
+      "vv" : utils.randomIntFromInterval(10, 13),
+      "tpos" : utils.randomIntFromInterval(80, 98)
+    }
    };
 
    var microTrip_ADAS = {
@@ -219,13 +217,15 @@ function sendingMicroTripMessage()
         "lon": longitudeValue[sequence % config.microTripCnt],
         "lat": latitudeValue[sequence % config.microTripCnt],
         "try": 1, 
-        "sp": utils.randomIntFromInterval(70, 100)
+        "sp": utils.randomIntFromInterval(70, 100),
+        "rssi": 1023
       }
   };
    
   messageSender.publish(utils.sendingTopic, JSON.stringify(eval('microTrip_' + config.deviceType)), {qos: 0}, function(){
     console.log(colors.yellow('[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
     console.log(colors.yellow('Message : ' + JSON.stringify(eval('microTrip_' + config.deviceType))));
+    //console.log(colors.yellow('Message : ' + msgpack.encode(eval('microTrip_' + config.deviceType)).toString('hex')));
     console.log(colors.yellow(''));
   });
 

@@ -15,4 +15,5 @@ module.exports = {
     rpcReqTopic : 'v1/sensors/me/rpc/request/+',
     rpcResTopic : 'v1/sensors/me/rpc/response/',
     rpcRstTopic : 'v1/sensors/me/rpc/result/',
+    msgpackTopic : 'v1/sensors/me/mp/tre'
 }
