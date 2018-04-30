@@ -54,7 +54,10 @@ var IntervalFunction;
 var tid = 300;
 var startTs;
 var endTs;
+var sendingMSG;
+var sendingTopic;
 var CERT = fs.readFileSync(path.join(__dirname, '/RootCA.crt'));
+
 // connection Smart[Fleet] Platform
 
 console.log(colors.green('Connecting to Smart[Fleet] Platform'));
@@ -221,19 +224,38 @@ function sendingMicroTripMessage()
         "rssi": 1023
       }
   };
-   
-  messageSender.publish(utils.sendingTopic, JSON.stringify(eval('microTrip_' + config.deviceType)), {qos: 0}, function(){
+
+  switch(config.messageCompression){
+    case 'true':
+      sendingMSG = msgpack.encode(eval('microTrip_' + config.deviceType));
+      sendingTopic = utils.msgpackTopic;
+      break;
+    case 'false':
+      sendingMSG = JSON.stringify(eval('microTrip_' + config.deviceType));
+      sendingTopic = utils.sendingTopic;
+      break;
+  }
+
+  messageSender.publish(sendingTopic, sendingMSG, {qos: 1}, function(){
     console.log(colors.yellow('[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
-    console.log(colors.yellow('Message : ' + JSON.stringify(eval('microTrip_' + config.deviceType))));
-    //console.log(colors.yellow('Message : ' + msgpack.encode(eval('microTrip_' + config.deviceType)).toString('hex')));
+    
+    switch(config.messageCompression){
+      case 'true':
+        console.log(colors.yellow(''));
+        console.log(colors.yellow('Message[MessagePack | ' + Buffer.from(sendingMSG).length + '] : ' + sendingMSG.toString('hex')));
+        console.log(colors.yellow(''));
+        console.log(colors.yellow('Message[JSON | ' + Buffer.from(JSON.stringify(eval('microTrip_' + config.deviceType))).length + '] : ' + JSON.stringify(eval('microTrip_' + config.deviceType))));
+        break;
+      case 'false':
+        console.log(colors.yellow('Message[JSON] : ' + JSON.stringify(eval('microTrip_' + config.deviceType))));
+        break;
+    }
     console.log(colors.yellow(''));
   });
 
   if ( sequence == config.microTripCnt ) {
     clearInterval(IntervalFunction);
-    //if ( config.deviceType != ADAS_Event ){
       sendingTripMessage();
-   // }
   }
 }
 

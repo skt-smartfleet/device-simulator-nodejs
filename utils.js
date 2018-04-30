@@ -11,7 +11,8 @@ module.exports = {
     },
 
     sendingTopic : 'v1/sensors/me/tre',
-    telemetryTopic : 'v1/sensors/me/telemetry',    
+    // deprecated topic
+    // telemetryTopic : 'v1/sensors/me/telemetry',    
     rpcReqTopic : 'v1/sensors/me/rpc/request/+',
     rpcResTopic : 'v1/sensors/me/rpc/response/',
     rpcRstTopic : 'v1/sensors/me/rpc/result/',
