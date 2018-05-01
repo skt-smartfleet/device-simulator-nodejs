@@ -84,7 +84,10 @@ module.exports = {
 정상적으로 설정된 Device Simulator의 동작 예시입니다.
 
 [GPS Device - Compression]
+
 ``MessagePack``을 통해서 메시지를 압축하여 전송하는 경우에 대한 예입니다. 이 경우에는 아래와 같이 JSON이 Byte String으로 압축되어 전송되는 것을 볼 수 있으며, 압축률에 대해서 볼 수 있습니다.
+
+추가로 Smart[Fleet]의 RPC 제어 API를 활용하여 제어를 수신하여 단말이 제어 결과를 전송하는 시뮬레이션 결과도 위의 명시된 Flow 번호를 통하여 확인하실 수 있습니다.
 
 ```
 Connecting to Smart[Fleet] Platform
@@ -480,7 +483,109 @@ Message : {
 }
 ```
 
+[BlackBox Device - Non-Compression]
 
+아래 예제는 블랙박스 단말이 메시지 압축 없이 메세지를 전송하고 RPC 제어를 하는 예정입니다. 
+
+```
+Connecting to Smart[Fleet] Platform
+=================== Configuration =================
+ClientID : trf9f81a2f2
+Device Type : BlackBox
+MessagePack Compression Enabled : false
+===================================================
+[Flow #1] Connected Smart[Fleet] Platform
+
+[Flow #2] Successfully Subscribe the RPC topic to Smart[Fleet] Platform
+
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+
+Message [JSON | 114 Bytes] : {
+  "ty": 8,
+  "try": 1,
+  "ts": 1525151137435,
+  "pld": {
+    "tid": 301,
+    "lon": 127.062512,
+    "lat": 37.510296,
+    "try": 1,
+    "sp": 75,
+    "rssi": 1023
+  }
+}
+
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+
+Message [JSON | 114 Bytes] : {
+  "ty": 8,
+  "try": 1,
+  "ts": 1525151139438,
+  "pld": {
+    "tid": 301,
+    "lon": 127.061969,
+    "lat": 37.511334,
+    "try": 1,
+    "sp": 89,
+    "rssi": 1023
+  }
+}
+
+[Flow #5] Receive the RPC Message from Smart[Fleet]
+Topic :v1/sensors/me/rpc/request/4b3dac50-4cfd-11e8-abb5-7994c152274f
+Message : {
+  "method": "d",
+  "params": {
+    "pin": "23",
+    "value": 1
+  }
+}
+
+[Flow #6] Successfully sending a RPC Response message to Smart[Fleet] Platform
+Message : {
+  "results": 2000
+}
+
+[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform
+
+Message [JSON | 114 Bytes] : {
+  "ty": 8,
+  "try": 1,
+  "ts": 1525151141440,
+  "pld": {
+    "tid": 301,
+    "lon": 127.063228,
+    "lat": 37.509141,
+    "try": 1,
+    "sp": 75,
+    "rssi": 1023
+  }
+}
+
+[Flow #3] Successfully sending a Trip message to Smart[Fleet] Platform
+
+Message [JSON | 97 Bytes] : {
+  "ty": 7,
+  "ts": 1525151141441,
+  "pld": {
+    "tid": 301,
+    "lat": 37.511334,
+    "lon": 127.061969,
+    "try": 1,
+    "vlt": 12.1
+  }
+}
+
+[Flow #8] Successfully sending a RPC Result to Smart[Fleet] Platform
+Message : {
+  "results": 2000,
+  "additionalInfo": {
+    "rusage": {
+      "recv": 100,
+      "stime": 200
+    }
+  }
+}
+```
 
 
 
