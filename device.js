@@ -5,6 +5,7 @@ var colors = require('colors');
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
+// for importing messagePack encoding SDK
 var msgpack = require('msgpack5')();
 
 
@@ -56,7 +57,6 @@ var startTs;
 var endTs;
 var sendingMSG;
 var sendingTopic;
-var CERT = fs.readFileSync(path.join(__dirname, '/RootCA.crt'));
 
 // connection Smart[Fleet] Platform
 
@@ -74,19 +74,20 @@ var messageSender = mqtt.connect({
     clean:true,
     keepalive:60,
     rejectUnauthorized: true,
-    //cert:CERT,
     protocol: 'mqtts'
 });
 
 messageSender.on('connect', function() {
 
-    console.log(colors.green('[Flow #1] Connected Smart[Fleet] Platform'));
-    console.log(colors.blue('ClientID : ' + clientIdSession));
-    console.log(colors.blue('Device Type : ' + config.deviceType));
+    console.log(colors.bgBlue('=================== Configuration =================') + '\n'
+    + colors.blue('ClientID : ' + clientIdSession + '\n' + 'Device Type : ' + config.deviceType + '\n'
+    + 'MessagePack Compression Enabled : ' + config.messageCompression + '\n')
+    + colors.bgBlue('===================================================') + '\n'
 
+    + colors.green('[Flow #1] Connected Smart[Fleet] Platform' + '\n'));
+    
     subscribeRPCTopic();
     intervalSender();
-
 });
 
 // Connection Error Callback
@@ -118,7 +119,6 @@ function sendingMicroTripMessage()
 {
   sequence++;
   
-
   if (sequence == 1) {
     startTs = new Date().getTime();
 
@@ -228,30 +228,23 @@ function sendingMicroTripMessage()
   switch(config.messageCompression){
     case 'true':
       sendingMSG = msgpack.encode(eval('microTrip_' + config.deviceType));
-      sendingTopic = utils.msgpackTopic;
+      messageSender.publish(utils.msgpackTopic, sendingMSG, {qos: config.qos}, function(){
+        console.log(colors.bgYellow(colors.black('[Flow #3] Successfully sending a Compressed MicroTrip message to Smart[Fleet] Platform' + '\n'
+        + 'Compression Ratio : ' + utils.compressRatio(Buffer.from(sendingMSG).length, Buffer.from(JSON.stringify(eval('microTrip_' + config.deviceType))).length) + '%\n'))
+        + colors.yellow('Message [MessagePack | ' + Buffer.from(sendingMSG).length +  ' Bytes] : ' + sendingMSG.toString('hex') + '\n\n'
+        + 'Message [JSON | ' + Buffer.from(JSON.stringify(eval('microTrip_' + config.deviceType))).length + ' Bytes] : ' 
+        + JSON.stringify(eval('microTrip_' + config.deviceType), 0, 2) + '\n'));
+      });
       break;
     case 'false':
       sendingMSG = JSON.stringify(eval('microTrip_' + config.deviceType));
-      sendingTopic = utils.sendingTopic;
+      messageSender.publish(utils.sendingTopic, sendingMSG, {qos: config.qos}, function(){
+        console.log(colors.bgYellow(colors.black('[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform' + '\n\n'))
+        + colors.yellow('Message [JSON | ' + Buffer.from(JSON.stringify(eval('microTrip_' + config.deviceType))).length + ' Bytes] : ' 
+        + JSON.stringify(eval('microTrip_' + config.deviceType), 0, 2) + '\n'));
+      });
       break;
   }
-
-  messageSender.publish(sendingTopic, sendingMSG, {qos: 1}, function(){
-    console.log(colors.yellow('[Flow #3] Successfully sending a MicroTrip message to Smart[Fleet] Platform'));
-    
-    switch(config.messageCompression){
-      case 'true':
-        console.log(colors.yellow(''));
-        console.log(colors.yellow('Message[MessagePack | ' + Buffer.from(sendingMSG).length + '] : ' + sendingMSG.toString('hex')));
-        console.log(colors.yellow(''));
-        console.log(colors.yellow('Message[JSON | ' + Buffer.from(JSON.stringify(eval('microTrip_' + config.deviceType))).length + '] : ' + JSON.stringify(eval('microTrip_' + config.deviceType))));
-        break;
-      case 'false':
-        console.log(colors.yellow('Message[JSON] : ' + JSON.stringify(eval('microTrip_' + config.deviceType))));
-        break;
-    }
-    console.log(colors.yellow(''));
-  });
 
   if ( sequence == config.microTripCnt ) {
     clearInterval(IntervalFunction);
@@ -343,12 +336,26 @@ function sendingTripMessage(){
       }
   };
 
-  messageSender.publish(utils.sendingTopic, JSON.stringify(eval('trip_' + config.deviceType)), {qos: 1}, function(){
-    console.log(colors.yellow('[Flow #3] Successfully sending a Trip message to Smart[Fleet] Platform'));
-    console.log(colors.yellow('Message : ' + JSON.stringify(eval('trip_' + config.deviceType))));
-    console.log(colors.yellow(''));
-  });
-
+  switch(config.messageCompression){
+    case 'true':
+      sendingMSG = msgpack.encode(eval('trip_' + config.deviceType));
+      messageSender.publish(utils.msgpackTopic, sendingMSG, {qos: config.qos}, function(){
+        console.log(colors.bgCyan(colors.black('[Flow #3] Successfully sending a Compressed Trip message to Smart[Fleet] Platform' + '\n'
+        + 'Compression Ratio : ' + utils.compressRatio(Buffer.from(sendingMSG).length, Buffer.from(JSON.stringify(eval('trip_' + config.deviceType))).length) + '%\n'))
+        + colors.cyan('Message [MessagePack | ' + Buffer.from(sendingMSG).length +  ' Bytes] : ' + sendingMSG.toString('hex') + '\n\n'
+        + 'Message [JSON | ' + Buffer.from(JSON.stringify(eval('trip_' + config.deviceType))).length + ' Bytes] : ' 
+        + JSON.stringify(eval('trip_' + config.deviceType), 0, 2) + '\n'));
+      });
+      break;
+    case 'false':
+      sendingMSG = JSON.stringify(eval('trip_' + config.deviceType));
+      messageSender.publish(utils.sendingTopic, sendingMSG, {qos: config.qos}, function(){
+        console.log(colors.bgCyan(colors.black('[Flow #3] Successfully sending a Trip message to Smart[Fleet] Platform' + '\n\n'))
+        + colors.cyan('Message [JSON | ' + Buffer.from(JSON.stringify(eval('trip_' + config.deviceType))).length + ' Bytes] : ' 
+        + JSON.stringify(eval('trip_' + config.deviceType), 0, 2) + '\n'));
+      });
+      break;
+  }
   intervalSender();
 }
 
@@ -365,10 +372,9 @@ messageSender.on('message', function(topic, message) {
     var requestId = topic.toString().split('/')[5];
 
     if (msgs != null){
-      console.log(colors.magenta('[Flow #5] Receive the RPC Message'));
-      console.log(colors.magenta('Topic :' + topic));
-      console.log(colors.magenta(msgs));
-      console.log(colors.magenta(''));
+      console.log(colors.bgMagenta(colors.black('[Flow #5] Receive the RPC Message from Smart[Fleet]')) + '\n'
+      + colors.magenta('Topic :' + topic + '\n' 
+      + 'Message : ' + JSON.stringify(JSON.parse(msgs), 0, 2) + '\n'));
 
       responseRPCRequest(requestId);
     }
@@ -392,15 +398,13 @@ function responseRPCRequest(arg){
       "results" : 2000
     };
 
-    var sendingMessageJSON = JSON.stringify(sendingMessageObj);
+    var sendingMessageJSON = JSON.stringify(sendingMessageObj, 0, 2);
 
-    messageSender.publish(utils.rpcResTopic + arg, sendingMessageJSON, {qos: 1}, function() {
-      console.log(colors.magenta('[Flow #6] Successfully sending a RPC Response message to Smart[Fleet] Platform'));
-      console.log(colors.magenta('Message : ' + sendingMessageJSON));
-      console.log(colors.magenta(''));
+    messageSender.publish(utils.rpcResTopic + arg, sendingMessageJSON, {qos: config.qos}, function() {
+      console.log(colors.bgMagenta(colors.black('[Flow #6] Successfully sending a RPC Response message to Smart[Fleet] Platform')) + '\n'
+      + colors.magenta('Message : ' + sendingMessageJSON) + '\n');
     });
-
-
+     
 //////////////////////////////////////////////////
 // Flow #7 : Operating the RPC
 // 본 시뮬레이터에서는 2초 정도의 지연으로 RPC 수행을 대신합니다.
@@ -426,11 +430,10 @@ function resultRPCpublish(arg){
     }
   };
 
-  var sendingResultJSON = JSON.stringify(sendingMessageObj);
+  var sendingResultJSON = JSON.stringify(sendingMessageObj, 0, 2);
 
-  messageSender.publish(utils.rpcRstTopic + arg, sendingResultJSON, {qos: 1}, function() {
-    console.log(colors.magenta('[Flow #8] Successfully sending a RPC Result to Smart[Fleet] Platform'));
-    console.log(colors.magenta('Message : ' + sendingResultJSON));
-    console.log(colors.magenta(''));
+  messageSender.publish(utils.rpcRstTopic + arg, sendingResultJSON, {qos: config.qos}, function() {
+    console.log(colors.bgMagenta(colors.black('[Flow #8] Successfully sending a RPC Result to Smart[Fleet] Platform')) + '\n'
+    + colors.magenta('Message : ' + sendingResultJSON) + '\n');
   });
 }
